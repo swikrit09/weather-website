@@ -1,0 +1,296 @@
+<!-- Weather app using rapid api -->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My weather app</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<style>
+    body{
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1NDyPo3NqslvjsOkfvml9dV6AjY2B680Yfg&usqp=CAU") ;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    h1,h2,h3,h4,h5,h6{
+        color:#280642;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary-" >
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"><strong>Weather_Web_App</strong> </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-3 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://api-ninjas.com/api/weather">About this Api</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Places
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="Delhi" href="#">Delhi</a></li>
+                            <li><a class="dropdown-item" id="Mumbai" href="#">Mumbai</a></li>
+                            <li><a class="dropdown-item" id="Bangalore" href="#">Bangalore</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input id="city" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-danger" id="submit"type="submit" >Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <br><br><br><br>
+        <h1 class="my-1 text-center"><b> Weather of <span id="cityName"></span></b></h1>
+        <br><br><br>
+        <main>
+            <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+            
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Temperature</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title"><span id="temp"></span><span>&#8451;</span>
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Feels like <span id="feels_like"></span><span>&#8451;</span></li>
+                                <li>Min_temp is <span id="min_temp"></span><span>&#8451;</span></li>
+                                <li>Max_temp is <span id="max_temp"></span><span>&#8451;</span></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Humidity</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title"><span id="humidity"></span><small class="text-muted fw-light">%</small>
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Cloud_pct is <span id="cloud_pct"></span>%</li>
+                                <li>Sunrise Time is <span id="sunrise"></span></li>
+                                <li>Sunset Time is <span id="sunset"></span></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Wind_speed</h4>
+                        </div>
+                        <div class="card-body">
+                            <h1 class="card-title pricing-card-title"><span id="wind_speed2"></span><small class="text-muted fw-light">km/h</small>
+                            </h1>
+                            <ul class="list-unstyled mt-3 mb-4">
+                                <li>Wind_speed <span id="wind_speed"></span> Km/h</li>
+                                <li>Wind_degrees <span id="wind_degrees"></span> Degrees</li>
+                                <li>humidity is <span id="humidity2"></span>%</li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            <h2 class="display-6 text-center mb-4"style="margin-top: 150px;">Weather of other places</h2>
+
+            <div class="table-responsive" >
+                <table class="table text-center">
+                    <thead>
+                        <tr>
+                            <th style="width: 24%;"></th>
+                            <th style="width: 12%;">Temp</th>
+                            <th style="width: 12%;">Feels_like</th>
+                            <th style="width: 12%;">Humidity</th>
+                            <th style="width: 12%;">Wind_speed</th>
+                            <th style="width: 12%;">Wind_degrees</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="text-start" id="raipur">Raipur</th>
+                            <td><span id="a_temp"></span><span>&#8451;</span></td>
+                            <td><span id="a_feels_like"></span><span>&#8451;</span></td>
+                            <td><span id="a_humidity"></span>%</td>
+                            <td><span id="a_wind_speed"></span> Km/h</td>
+                            <td><span id="a_wind_degrees"></span> Degree</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="text-start" id="bilaspur">Bilaspur</th>
+                            <td><span id="b_temp"></span><span>&#8451;</span></td>
+                            <td><span id="b_feels_like"></span><span>&#8451;</span></td>
+                            <td><span id="b_humidity"></span>%</td>
+                            <td><span id="b_wind_speed"></span> Km/h</td>
+                            <td><span id="b_wind_degrees"></span> Degree</td>
+                        </tr>
+                    </tbody>
+
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="text-start" id="durg">Durg</th>
+                            <td><span id="c_temp"></span><span>&#8451;</span></td>
+                            <td><span id="c_feels_like"></span><span>&#8451;</span></td>
+                            <td><span id="c_humidity"></span>%</td>
+                            <td><span id="c_wind_speed"></span> Km/h</td>
+                            <td><span id="c_wind_degrees"></span> Degree</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <footer style="margin: 100px 40% 0;">
+        <span>Created By <a href="#">Champ_Swikki</a> | 2023 All rights reserved.</span>
+    </footer>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <script >
+        
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'd014ca2891mshcbbe1075a009e69p1801d0jsn0d462764dd9b',
+            'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
+        }
+    };
+    const getWeather = (city) =>{
+        cityName.innerHTML= city
+        fetch('https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city='+ city, options)
+        .then(response => response.json())
+        
+        .then(response => {
+            
+            cloud_pct.innerHTML = response.cloud_pct
+            temp.innerHTML = response.temp
+            feels_like.innerHTML = response.feels_like
+            humidity.innerHTML = response.humidity
+            humidity2.innerHTML = response.humidity
+            min_temp.innerHTML = response.min_temp
+            max_temp.innerHTML = response.max_temp
+            wind_speed.innerHTML = response.wind_speed
+            wind_speed2.innerHTML = response.wind_speed
+            wind_degrees.innerHTML = response.wind_degrees
+            sunrise.innerHTML = response.sunrise
+            sunset.innerHTML = response.sunset
+    
+            console.log(response)
+        })
+        .catch(err => console.error(err));
+        }
+        // For city 1
+        const getWeather2 = (city) =>{
+            raipur.innerHTML= city
+            fetch('https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city='+ city, options)
+            .then(response => response.json())
+            
+            .then(response => {
+                
+                a_temp.innerHTML = response.temp
+                a_feels_like.innerHTML = response.feels_like
+                a_humidity.innerHTML = response.humidity
+                a_wind_speed.innerHTML = response.wind_speed
+                a_wind_degrees.innerHTML = response.wind_degrees
+        
+                console.log(response)
+            })
+            .catch(err => console.error(err));
+            }
+            //for city 2
+                const getWeather3 = (city) =>{
+                    bilaspur.innerHTML= city
+                    fetch('https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city='+ city, options)
+                    .then(response => response.json())
+                    
+                    .then(response => {
+                        
+                        b_temp.innerHTML = response.temp
+                        b_feels_like.innerHTML = response.feels_like
+                        b_humidity.innerHTML = response.humidity
+                        b_wind_speed.innerHTML = response.wind_speed
+                        b_wind_degrees.innerHTML = response.wind_degrees
+                
+                        console.log(response)
+                    })
+                    .catch(err => console.error(err));
+                    }
+                    //for city3
+                    const getWeather4 = (city) =>{
+                        durg.innerHTML= city
+                        fetch('https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city='+ city, options)
+                        .then(response => response.json())
+                        
+                        .then(response => {
+                            
+                            c_temp.innerHTML = response.temp
+                            c_feels_like.innerHTML = response.feels_like
+                            c_humidity.innerHTML = response.humidity
+                            c_wind_speed.innerHTML = response.wind_speed
+                            c_wind_degrees.innerHTML = response.wind_degrees
+                    
+                            console.log(response)
+                        })
+                        .catch(err => console.error(err));
+                        }
+    
+    Delhi.addEventListener("click", (e)=>{
+        e.preventDefault()
+        getWeather("Delhi")
+    })
+    Mumbai.addEventListener("click", (e)=>{
+        e.preventDefault()
+        getWeather("Mumbai")
+    })
+    Bangalore.addEventListener("click", (e)=>{
+        e.preventDefault()
+        getWeather("Bangalore")
+    })
+    submit.addEventListener("click", (e)=>{
+        e.preventDefault()
+        getWeather(city.value)
+    })
+    getWeather("Kawardha")
+    getWeather2("Raipur")
+    getWeather3("Bilaspur")
+    getWeather4("Durg")</script>
+</body>
+
+</html>
